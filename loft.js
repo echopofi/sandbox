@@ -18,15 +18,16 @@ app.get("/users", (req, res)=>{
 	res.json(users)
 })
 
-app.get("/users/:index", (req, res)=>{
+app.get("/users/:index/role", (req, res)=>{
 	const index = Number(req.params.index)
 	const user = users[index]
 
 	if (!user){
 		return res.json({message: "User not found"})
 	}
-	res.json(user)
+	res.json({message: user.name})
 })
+
 
 
 app.listen(PORT, ()=>{
