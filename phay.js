@@ -21,13 +21,20 @@ app.get("/users", async(req, res) => {
 	}
 })
 
-app.get("/userId/:id", async(req, res) =>{
+app.get("/userss/:id?", async(req, res) =>{
 	try{
 		const id = req.params.id
-		const result = await fetch(`https://jsonplaceholder.typicode.com/users/${id}`)
-		const data = await result.json()
 
-		res.status(200).json(data)
+		if (!id){
+			return res.status(200).json(data)
+		} else {
+			const result = await fetch(`https://jsonplaceholder.typicode.com/users/${id}`)
+			const data = await result.json()
+
+			res.status(200).json(data)
+		}
+
+		
 	} catch (error){
 		res.status(500).json({
 			message: "faied to fetch",
