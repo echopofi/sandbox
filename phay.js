@@ -1,23 +1,46 @@
-const apple = require("express")
-const app = apple()
-const PORT = 3500
+const express = require("express")
+const app = express()
+const PORT = 3001
+app.use(express.json())
 
-app.use(apple.json())
-
-app.get("/phay", (req, res) =>{
-	res.send("Hello world, i am Phay")
+app.get("/", (req, res) =>{
+	res.status(200).json({message: "API active"})
 })
 
-app.get("/happiness", (req, res) => {
-	res.json({
-		"name": "Happiness",
-		"gender": "Female",
-		"isMarried": false,
-		"age": 35,
-		"height": 4.8,
+app.get("/users", async(req, res) => {
+	try {
+		const result = await fetch("https://jsonplaceholder.typicode.com/users")
+		const data = await result.json()
+
+		res.status(200).json(data)
+	} catch (error){
+		res.status(500).json({
+			message: "fetching error",
+			status: false
+		})
+	}
+})
+
+app.get("/userId/:id", async(req, res) =>{
+	try{
+		const id = req.params.id
+		const result = await fetch(`https://jsonplaceholder.typicode.com/users/${id}`)
+		const data = await result.json()
+
+		res.status(200).json(data)
+	} catch (error){
+		res.status(500).json({
+			message: "faied to fetch",
+			status: false
+		})
+	}
+})
+
+app.listen(PORT, ()=>{
+	console.log({
+		message: "Server Runnig",
+		health: "healthy",
+		status: true,
+		port: 3001
 	})
-})
-
-app.listen(PORT, () =>{
-	console.log("Server at port 3500")
 })
