@@ -1,53 +1,38 @@
 const express = require("express")
 const app = express()
-const PORT = 3001
+const PORT = 3003
 app.use(express.json())
 
-app.get("/", (req, res) =>{
-	res.status(200).json({message: "API active"})
+const fetchUsers = async() => {
+	const id = req.query.id
+	const result = await fetch(`https://jsonplaceholder.typicode.com/users/${id}`)
+	const data = await result.json()
+
+	return data
+}
+
+
+app.get("/", (req, res) => {
+	res.status(200).json({
+		message: "Welcome to my test API"
+	})
 })
 
-app.get("/users", async(req, res) => {
+app.get("/customers/?id", async(req, res) => {
 	try {
-		const result = await fetch("https://jsonplaceholder.typicode.com/users")
-		const data = await result.json()
-
-		res.status(200).json(data)
-	} catch (error){
+		const allCustomers = await fetchUsers()
+		res.status(200).json(allCustomers)
+	} catch (error) {
 		res.status(500).json({
-			message: "fetching error",
+			message: "fetching failed",
 			status: false
 		})
 	}
 })
 
-app.get("/userss/:id?", async(req, res) =>{
-	try{
-		const id = req.params.id
-
-		if (!id){
-			return res.status(200).json(data)
-		} else {
-			const result = await fetch(`https://jsonplaceholder.typicode.com/users/${id}`)
-			const data = await result.json()
-
-			res.status(200).json(data)
-		}
-
-		
-	} catch (error){
-		res.status(500).json({
-			message: "faied to fetch",
-			status: false
-		})
-	}
-})
-
-app.listen(PORT, ()=>{
+app.listen(PORT, () => {
 	console.log({
-		message: "Server Runnig",
-		health: "healthy",
-		status: true,
-		port: 3001
+		message: "server up",
+		port: 3003
 	})
 })
