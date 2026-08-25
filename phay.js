@@ -1,38 +1,39 @@
 const express = require("express")
 const app = express()
-const PORT = 3003
+const PORT = 3000
+
 app.use(express.json())
 
-const fetchUsers = async() => {
-	const id = req.query.id
-	const result = await fetch(`https://jsonplaceholder.typicode.com/users/${id}`)
+const fetchData = async() => {
+	const result = await fetch("https://jsonplaceholder.typicode.com/users")
 	const data = await result.json()
 
 	return data
 }
 
-
 app.get("/", (req, res) => {
 	res.status(200).json({
-		message: "Welcome to my test API"
+		message: "Welcome to my revision API"
 	})
 })
 
-app.get("/customers/?id", async(req, res) => {
+app.get("/users", async(req, res)=>{
 	try {
-		const allCustomers = await fetchUsers()
-		res.status(200).json(allCustomers)
+		const data = await fetchData()
+		res.status(200).json(data)
 	} catch (error) {
 		res.status(500).json({
-			message: "fetching failed",
-			status: false
+			message: "Unable to fetch",
+			status: false,
 		})
 	}
 })
 
 app.listen(PORT, () => {
 	console.log({
-		message: "server up",
-		port: 3003
+		message: "server running",
+		port: PORT,
+		status: true
 	})
 })
+
