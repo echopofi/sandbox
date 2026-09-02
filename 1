@@ -10,7 +10,7 @@ const dataFetch = async(id = "") => {
 	: "https://jsonplaceholder.typicode.com/users"
 
 	const result = await fetch(url)
-	const data = await result.json()
+	const data = result.json()
 
 	if (!result.ok) {
 		throw new Error({
@@ -37,19 +37,17 @@ app.get("/users", async(req, res) => {
 })
 
 
-app.get("/users/:id", async(req, res) => {
+app.get("users/:id", async(req, res) => {
 	try{
 		const idn = req.params.id
 		const data = await dataFetch(idn)
 
 		res.status(200).json(data)
-	} catch (error) {errorMessage(res)}
+	} catch (error) {errorMessage}
 })
 
 app.listen(PORT, () => {
-	console.log({
-		status: true,
-		message: "Server running",
-		port: PORT,
-	})	
+	status: true,
+	message: "Server running",
+	port: PORT
 })
