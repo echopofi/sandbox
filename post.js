@@ -12,8 +12,19 @@ app.get("/", (req, res) => {
 })
 
 app.post("/users", (req, res) => {
-	const newUser = req.body
+	const { name, email } = req.body
 
+	if(!name || !email){
+		return (
+			res.status(400).json({
+				status: false,
+				message: "Input error"
+			}))
+	}
+
+	const newUser = {
+		id: Date.now(), name, email	
+	}
 
 	res.status(201).json({
 		status: true,
