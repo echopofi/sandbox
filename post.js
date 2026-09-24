@@ -1,12 +1,11 @@
 const express = require("express")
 const app = express()
-const port = 3010
-
+const port = 3011
 app.use(express.json())
 
-let users = [
-    { id: 1, name: "Alice", email: "alice@test.com" },
-    { id: 2, name: "Bob", email: "bob@test.com" }
+const db = [
+	{id: 1, name: "Tester One", email: "tester1@example.com"},
+	{id: 2, name: "Funky Two", email: "funcky2@example.com"}
 ]
 
 app.get("/", (req, res) => {
@@ -18,36 +17,38 @@ app.get("/", (req, res) => {
 
 app.get("/users", (req, res) => {
 	res.status(200).json({
-		status:true,
-		data: users
+		status: true,
+		data: db
 	})
 })
 
 app.post("/users", (req, res) => {
 	const { name, email } = req.body
 
-	if (!name || !email){
+	if ( !name || !email ) {
 		return(
 			res.status(400).json({
 				status: false,
-				message: "name and email required"
+				message: "Name and email required"
 			}))
 	}
 
-	const newUser = { id: users.length + 1, name, email }
+	const newUser = { id: db.length +1, name, email}
 
-	users.push(newUser)
-	console.log(users)
+	db.push(newUser)
 
 	res.status(201).json({
 		status: true,
-		message: "User created success",
+		message: "User added successfully",
 		data: newUser
 	})
+
+	console.log(db)
 })
 
 
-app.listen(port, ()=>{
+
+app.listen(port, () => {
 	console.log({
 		status: true,
 		message: "Server running",
