@@ -1,8 +1,8 @@
 {
-  "name": "sandbox",
+  "name": "beanddb",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -11,7 +11,7 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
-    "express": "^5.2.1",
+    "dotenv": "^18.0.4",
     "pg": "^8.23.0"
   }
 }

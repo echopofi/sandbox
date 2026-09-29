@@ -1,0 +1,16 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: sandbox-pg
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: sandbox
+      POSTGRES_PASSWORD: sandbox123
+      POSTGRES_DB: sandbox_db
+    ports: 
+      - "5433:5432"
+    volumes:
+      - sandbox_pg_data:/var/lib/potgresql/data
+
+volumes:
+  sandbox_pg_data:  
