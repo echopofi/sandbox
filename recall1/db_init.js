@@ -1,42 +1,37 @@
 require("dotenv").config()
-
 const { Pool } = require("pg")
-const { connectionString } = require("pg/lib/defaults")
 
 const pool = new Pool({
 	connectionString: process.env.DB_URL
 })
 
-console.log("STARTING DB connection...")
+console.log("Starting Connection ....\n")
 
-async function initDB(){
-	console.log("\nAttempting to connect to postgresSQL container ...\n")
+async function dbInit() {
+	console.log("Starting db pool container ....\n")
+
 	try {
 		await pool.query("SELECT NOW()")
-		console.log("Container connection successful...\n")
-		console.log("creating Table...\n")
+		console.log("Container started Sucessfully....\n")
+		console.log("Preparing Schema for table ....\n")
 
 		const createTableQuery = `
 			CREATE TABLE IF NOT EXISTS users(
-				id SERIAL PRIMARY KEY,
-				name VARCHAR(100) NOT NULL,
-				email VARCHAR(150) NOT NULL,
-				created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-				);
+			id SERIAL PRIMARY KEY,
+			name VARCHAR(100) NOT NULL,
+			email VARCHAR(150) NOT NULL,
+			created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+			);
 		`
-
+		console.log("Creating table ....\n")
 		await pool.query(createTableQuery)
-		console.log("TABLE created  successfully...\n")
-		console.log("DB initialized without Errors...")
-	}
-
-	catch (error) {
-		console.log("DB initialization failed", error.message)
-	}
-
-	finally{
+		console.log("Table created successfully ....\nDB initialized without error")
+	} catch (err){
+		console.log("DB init failed", err.message)
+	} finally {
 		pool.end()
-		console.log("DB connection closed successfully...")
+		console.log("Connection Pool closed sucessfully ....\n")
 	}
 }
-initDB()
+
+dbInit()
